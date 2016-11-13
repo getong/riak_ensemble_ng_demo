@@ -1,0 +1,6 @@
+-sname riak_ensemble_ng_demo
+
+-setcookie riak_ensemble_ng_demo_cookie
+
++K true
++A30
