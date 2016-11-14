@@ -1,4 +1,7 @@
 -module(riak_ensemble_ng_demo).
+%% I just copy the functions from https://github.com/marksteele/riak_ensemble_demo
+%% which is according to the riak_ensemble, and the Erlang/OTP 17.0
+%% I update it with riak_ensemble_ng, rebar3, Erlang/OTP 19
 
 %% API
 -export([
