@@ -10,7 +10,8 @@
 		 read_object/1,
 		 write/2,
 		 cas/3,
-		 write_once/2
+		 write_once/2,
+         create_ensemble/0
 		]).
 
 
@@ -72,6 +73,10 @@ cluster_status() ->
 			io:format("Leader: ~p~n",[LeaderNode])
 	end.
 
+create_ensemble() ->
+    %% create a abc ensemble for test
+    riak_ensemble_manager:create_ensemble(abc, undefined, [node() | nodes()],
+                                                   riak_ensemble_basic_backend, []).
 %%--------------------------------------------------------------------
 %% @doc
 %% @spec
