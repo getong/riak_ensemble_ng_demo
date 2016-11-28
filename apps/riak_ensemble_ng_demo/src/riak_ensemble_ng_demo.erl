@@ -11,7 +11,8 @@
 		 write/2,
 		 cas/3,
 		 write_once/2,
-         create_ensemble/0
+         create_ensemble/0,
+         join_cluster/1
 		]).
 
 
@@ -77,6 +78,23 @@ create_ensemble() ->
     %% create a abc ensemble for test
     riak_ensemble_manager:create_ensemble(abc, undefined, [node() | nodes()],
                                                    riak_ensemble_basic_backend, []).
+join_cluster(Node) ->
+    case node() of
+        Node ->
+            lager:error("can not join local node, use a new node name", []);
+        _ ->
+            case riak_ensemble_manager:join(node(), Node) of
+                ok ->
+                    wait_stable(),
+                    riak_ensemble_peer:update_members(
+                      riak_ensemble_manager:get_leader_pid(root),
+                      [{add,{root,node()}}],
+                      5000);
+                _ ->
+                    ok
+            end
+    end.
+
 %%--------------------------------------------------------------------
 %% @doc
 %% @spec
@@ -89,3 +107,23 @@ create_ensemble() ->
 %%%===================================================================
 %%% Internal functions
 %%%===================================================================
+wait_stable() ->
+  case check_stable() of
+    true ->
+      ok;
+    false ->
+      wait_stable()
+  end.
+
+check_stable() ->
+  case riak_ensemble_manager:check_quorum(root, 1000) of
+    true ->
+      case riak_ensemble_peer:stable_views(root, 1000) of
+        {ok, true} ->
+          true;
+        _ ->
+          false
+      end;
+    false ->
+      false
+  end.
