@@ -83,7 +83,7 @@ join_cluster(Node) ->
         Node ->
             lager:error("can not join local node, use a new node name", []);
         _ ->
-            case riak_ensemble_manager:join(node(), Node) of
+            case riak_ensemble_manager:join(Node, node()) of
                 ok ->
                     wait_stable(),
                     riak_ensemble_peer:update_members(
