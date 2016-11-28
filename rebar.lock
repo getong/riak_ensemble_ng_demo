@@ -1,4 +1,3 @@
-{"1.1.0",
 [{<<"goldrush">>,
   {git,"https://github.com/basho/goldrush.git",
        {ref,"8f1b715d36b650ec1e1f5612c00e28af6ab0de82"}},
@@ -7,8 +6,7 @@
   {git,"https://github.com/erlang-lager/lager",
        {ref,"81eaef0ce98fdbf64ab95665e3bc2ec4b24c7dac"}},
   0},
- {<<"riak_ensemble">>,{pkg,<<"riak_ensemble_ng">>,<<"2.3.0">>},0}]}.
-[
-{pkg_hash,[
- {<<"riak_ensemble">>, <<"8D980FA3A2DFBAEA30F393808031FCFBDF3D99C88B820B09A01DEF5BDF58C2BD">>}]}
-].
+ {<<"riak_ensemble">>,
+  {git,"https://github.com/getong/riak_ensemble",
+       {ref,"400a4da1c0c561aa49bb5d6c67dba2ed92a064ab"}},
+  0}].
