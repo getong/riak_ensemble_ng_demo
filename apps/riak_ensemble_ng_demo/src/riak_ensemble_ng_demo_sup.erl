@@ -28,7 +28,7 @@ start_link() ->
 
 %% Child :: {Id,StartFunc,Restart,Shutdown,Type,Modules}
 init([]) ->
-	riak_ensemble_manager:enable(),
+	#riak_ensemble_manager:enable(),
     {ok, { {one_for_all, 0, 1}, []} }.
 
 %%====================================================================
