@@ -32,15 +32,15 @@ read(Key) ->
 	end.
 
 read_object(Key) ->
-	case riak_ensemble_client:kget(node(),root,Key,10000) of
-		{ok,Obj} ->
+	case riak_ensemble_client:kget(node(), root, Key, 10000) of
+		{ok, Obj} ->
 			{ok, Obj};
 		Error ->
 			{error, Error}
 	end.
 
 write(Key, Value) ->
-	case riak_ensemble_client:kover(node(),root,Key,Value,10000) of
+	case riak_ensemble_client:kover(node(), root, Key, Value, 10000) of
 		{ok, _} ->
 			ok;
 		Err ->
@@ -48,7 +48,7 @@ write(Key, Value) ->
 	end.
 
 cas(Key, OldObj, New) ->
-	case riak_ensemble_client:kupdate(node(),root,Key,OldObj,New,10000) of
+	case riak_ensemble_client:kupdate(node(), root, Key, OldObj, New, 10000) of
 		{ok,_} ->
 			ok;
 		Error ->
@@ -56,7 +56,7 @@ cas(Key, OldObj, New) ->
 	end.
 
 write_once(Key,Value) ->
-	case riak_ensemble_client:kput_once(node(),root,Key,Value,10000) of
+	case riak_ensemble_client:kput_once(node(), root, Key, Value, 10000) of
 		{ok, _} ->
 			ok;
 		Error ->
@@ -88,7 +88,7 @@ join_cluster(Node) ->
 					wait_stable(),
 					riak_ensemble_peer:update_members(
 					  riak_ensemble_manager:get_leader_pid(root),
-					  [{add,{root,node()}}],
+					  [{add, {root, node()}}],
 					  5000);
 				_ ->
 					ok
