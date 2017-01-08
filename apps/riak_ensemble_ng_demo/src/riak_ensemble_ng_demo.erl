@@ -8,7 +8,9 @@
 		 cluster_status/0,
 		 read/1,
 		 read_object/1,
+         read_object/2,
 		 write/2,
+         write/3,
 		 cas/3,
 		 write_once/2,
 		 create_ensemble/0,
@@ -39,8 +41,24 @@ read_object(Key) ->
 			{error, Error}
 	end.
 
+read_object(Ensemble, Key) ->
+    case riak_ensemble_client:kget(node(), Ensemble, Key, 10000) of
+		{ok, Obj} ->
+			{ok, Obj};
+		Error ->
+			{error, Error}
+	end.
+
 write(Key, Value) ->
 	case riak_ensemble_client:kover(node(), root, Key, Value, 10000) of
+		{ok, _} ->
+			ok;
+		Err ->
+			{error, Err}
+	end.
+
+write(Ensemble, Key, Value) ->
+	case riak_ensemble_client:kover(node(), Ensemble, Key, Value, 10000) of
 		{ok, _} ->
 			ok;
 		Err ->
